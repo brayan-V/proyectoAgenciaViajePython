@@ -1,12 +1,20 @@
-##Creaando funciones del menu
+##Creando funciones del menu
+
 def crea_usuario():
-    """comentario sobre la funcion"""
-    print("opcion 1")
-    
+    """Función que solicita los datos del usuario y 
+    lo agrega a la lista de usuarios"""
+    global contador
+    print("\033c", end="") ##Limpiar consola
+    nombre = input("Ingresa el nombre del usuario: ")
+    apellido = input("Ingresa el apellido del usuario: ")
+    edad = int(input("Ingresa la edad del usuario: "))
+    contador += 1   
+    lista_usuarios[contador]= f"{nombre} {apellido} {edad} Años" 
+    print(f"***Usuario {nombre} {apellido} Creado con exito***")
+        
 def crea_paquete_turistico():
     """"comentario sobre la funcion"""
     print("opcion 2")
-    
 def busca_paquete_turistico():
     """comentario sobre la funcion"""
     print("opcion 3")
@@ -25,8 +33,13 @@ menu_opciones = {
     '3':busca_paquete_turistico,
     '4':reservar_vuelo,
     '5':reservar_hotel
+}
+##Lista de usuarios vacia
+lista_usuarios ={
+    
 } 
 ##Inicializando variables
+contador = 0
 salir = False
 mensaje_bienvenida = "Bienvenido al menu de la Agencia"
 
@@ -35,7 +48,7 @@ while not salir:
     print("*"*len(mensaje_bienvenida))
     print(mensaje_bienvenida)
     print("*"*len(mensaje_bienvenida))
-    #Mostrando opciones del menu en cosola
+    #Mostrando opciones del menu en consola
     print("\n 1.Crear usuario")
     print(" 2.Crear paquete turistico")
     print(" 3.Buscar paquetes turisticos")
