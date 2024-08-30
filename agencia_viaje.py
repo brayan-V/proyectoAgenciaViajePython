@@ -1,3 +1,32 @@
+vuelos = {
+    1: {"Ciudad": "Bogota", "salidas": {"a": 130.000, "b": 140.000, "c": 150.000}},
+    2: {"Ciudad": "Medellin", "salidas": {"a": 145.000, "b": 155.000, "c": 165.000}},
+    3: {"Ciudad": "Santa Marta", "salidas": {"a": 160.000, "b": 170.000,  "c": 180.000}},
+    4: {"Ciudad": "Amazonas", "salidas": {"a": 175.000, "b": 185.000, "c": 200.000}}
+}
+
+hoteles = {
+    1: {
+        1:{"Nombre": "Hotel arena suites 4 dias - 3 noches", "Tours": "La Candelaria, Monserrate y Museo del Oro Bogotá City Tour", "precio": 643.000 },
+        2: {"Nombre": "Hotel Radisson Bogota Metrotel 4 dias - 3 noches", "Tours": "Bogota Tour Privado Catedral de Sal Zipaquira + Almuerzo", "precio": 999.999},
+        3: {"Nombre": "Hotel Radel Bogotá  3 dias - 2 noches", "Tours": "Tour gastronómico por el Viejo Bogotá con más de 12 degustaciones", "precio": 415.000  }
+    },
+    2: {
+        1:{"Nombre": "Hotel Sie7e 4 dias - 3 noches", "Tours": "Tour a Guatape, Piedra del Peñol con Recorrido en Barco, Desayuno y Almuerzo", "precio": 570.000},
+        2:{"Nombre": "Hotel Med Laureles 3 dias - 2 noches", "Tours": "City tour Medellin + Comuna 13 + Graffititour Se paisa por un dia", "precio": 572.000 },
+        3:{"Nombre": "Stanza Hotel Medellin 4 dias - 3 noches", "Tours": "Excursión a plantación de café y paseo a caballo: Todo en un gran e inolvidable día", "precio": 999.999}
+    },
+    3: {
+        1:{"Nombre": "Hotel Boutique ADAZ 4 dias - 3 noches", "Tours": "Tour de Día Completo en Catamarán por el Tayrona", "precio": 755.000},
+        2:{"Nombre": "Titanic Hotel 3 dias - 2 noches", "Tours": "Parque Tayrona - Cabo San Juan", "precio": 395.000},
+        3:{"Nombre": "Hotel Carolina Del Mar 4 dias - 3 noches", "Tour": "Tour Privado Piedras de Donama en Sierra Nevada de Santa Marta", "precio": 999.999}
+    },
+    4: {
+        1:{"Nombre": "Hostel Casa de las Palmas 4 dias - 3 noches", "Tours": "Visita Puerto Nariño, Tres Fronteras y la Reserva Marasha ", "precio": 845.000},
+        2:{"Nombre": "Hotel Yurupary 3 dias - 2 noches", "Tours": "Visita la reserva Natural Kindiwaira y la cascada fin del Mundo en Putumayo", "precio": 850.000 }
+    }
+}
+
 import time
 ##Fución para validar que la entrada sea un numero entero
 def validar_entrada(mensaje):
