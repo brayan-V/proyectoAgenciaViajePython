@@ -2,7 +2,7 @@ import time
 ##Fución para validar que la entrada sea un numero entero
 def validar_entrada(mensaje):
     entrada = input(mensaje)
-    if entrada.isdigit():##.esdigit verifica si la cadena es un numero
+    if entrada.isdigit():##.isdigit verifica si la cadena es un numero
         return int(entrada)##Retornamos la entrada 
     else:
         print("Ingresa un valor numerico")
@@ -85,14 +85,12 @@ menu_opciones = {
     '8':mostrar_compra
 }
 
-##Creando diccionaria vacio para almacenar a los usuarios
+##Creando diccionario vacio para almacenar a los usuarios
 diccionario_usuarios ={} 
-
 ##Inicializando variables
-salir = False
 mensaje_bienvenida = "Bienvenido al menu de la Agencia"
 ##Creando bucle para repetir el menu 
-while not salir:
+while True:
     print("*"*len(mensaje_bienvenida))
     print(mensaje_bienvenida)
     print("*"*len(mensaje_bienvenida))
@@ -108,13 +106,13 @@ while not salir:
     print(" 9.Salir")
     #Solicitando opcion al usuario
     opcion = input("\n Ingresa una opcion: ")
-    #Invocando funcion escogida por el usuario
+    #Invocando Fución escogida por el usuario
     if opcion in menu_opciones:
         menu_opciones[opcion]()
     #Saliendo del menu      
     elif opcion == '9':
         print("***Gracias por usar nuestro servicio***")
-        salir = True
+        break
     #Mensaje en caso de que se ingrese un dato equivocado
     else:
         print("\n***Ingresa una opcion valida***\n")
