@@ -27,24 +27,30 @@ hoteles = {
     }
 }
 
-import time
+import time ##Se importa time para hacer pequeñas pausas en la ejecución del codigo.
+
+##Creando funciones
 ##Fución para validar que la entrada sea un numero entero
 def validar_entrada(mensaje):
-    entrada = input(mensaje).strip()
+    entrada = input(mensaje).strip()##quitando los espacios en blanco
     if entrada.isdigit():##.isdigit verifica si la cadena es un numero
         return int(entrada)##Retornamos la entrada 
     else:
         print("Ingresa un valor numerico")
         return validar_entrada(mensaje)##En caso que la entra sea algo diferente a un numero volvemos a llamar la función    
-
+##Fución que imprime en pantalla los destinos disponibles desde el diccionario vuelos
 def destinos():
     print("\033c",end="")
     print("***Elige un destino***")
     for clave, valor in vuelos.items():
         print(f"{clave}. {valor['Ciudad']}.")
     opcion_destino = validar_entrada("Ingresa una opción: ")
-    return opcion_destino
-##Creando funciones del menu
+    if opcion_destino > 0 and opcion_destino <= len(vuelos):
+        return opcion_destino
+    else:
+        print("***Ingresa una opción valida***")
+        time.sleep(1)
+        return destinos()    
 
 def crea_usuario():
     """Función que solicita los datos del usuario y 
@@ -95,16 +101,28 @@ def mostrar_usuarios():
             print(f"ID:{id} {usuario['nombre']} {usuario['apellido']} {usuario['edad']} años")
             print("-"*25)
         
+def numero_pasajeros():
+    print("\033c", end="")## Limpiar consola
+    usuarios_viaje = validar_entrada("Ingrese la cantidad de personas que viajan: ")
+    contador = usuarios_viaje
+    while True:
+        crea_usuario()
+        contador -= 1
+        if contador == 0:
+            break
+    return usuarios_viaje
+
 def crea_paquete_turistico():
     """"comentario sobre la funcion"""
     print("\033c", end="")## Limpiar consola
+    usuarios_viaje = numero_pasajeros()      
     opcion = destinos()
     print("Reservar vuelo.")
-    reservar_vuelo(opcion)
+    reservar_vuelo(opcion,usuarios_viaje)
     print("Reservar hotel.")
-    reservar_hotel(opcion)
+    reservar_hotel(opcion,usuarios_viaje)
     
-def reservar_vuelo(clave):
+def reservar_vuelo(clave,pasajeros):
     """comentario sobre la funcion"""
     print("\033c", end="")## Limpiar consola
     if clave in vuelos:
@@ -118,13 +136,14 @@ def reservar_vuelo(clave):
             print("***Ingresa una opción valida***")
             time.sleep(1)
             print("\033c",end="")
-            reservar_vuelo(clave)                        
+            reservar_vuelo(clave,pasajeros)
+        costo_total.append(salidas[opcion_vuelo])                                
     else:
         print("***Ingresa una opción valida***")
         time.sleep(1)
-        return crea_paquete_turistico()
+        return reservar_vuelo(clave, pasajeros)
     
-def reservar_hotel(clave):
+def reservar_hotel(clave,huesped):
     """comentario sobre la funcion"""
     print("\033c", end="")## Limpiar consola
     if clave in hoteles:
@@ -134,14 +153,17 @@ def reservar_hotel(clave):
             print(f"{clave_hotel}. {hotel['Nombre']}")
         opcion_hotel = validar_entrada("Ingresa una opción: ")
         if clave in hoteles and opcion_hotel in hoteles[clave]:
+            
             hotel_elegido = hoteles[clave][opcion_hotel]
             print(f"Hotel: {hotel_elegido['Nombre']}")
             print(f"Tours: {hotel_elegido['Tours']}")
-            print(f"Precio: ${hotel_elegido['precio']:,}")
+            valor_hotel = hotel_elegido['precio'] * huesped 
+            costo_total.append(valor_hotel)
+            print(f"Precio: ${costo_total}")
         else:
             print("***Ingresa una opción valida***")
             time.sleep(1)
-            reservar_hotel(clave)  
+            reservar_hotel(clave, huesped)  
 def mostrar_compra():
     """comentario sobre la funcion"""
 
@@ -153,9 +175,10 @@ menu_opciones = {
     4:crea_paquete_turistico,
     5:mostrar_compra
 }
-
 ##Creando diccionario vacio para almacenar a los usuarios
-diccionario_usuarios ={} 
+diccionario_usuarios ={}
+##Creando lista de costos
+costo_total = [] 
 ##Inicializando variables
 mensaje_bienvenida = "Bienvenido al menu de la Agencia"
 ##Creando bucle para repetir el menu 
