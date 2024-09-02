@@ -28,7 +28,7 @@ hoteles = {
 }
 
 import time ##Se importa time para hacer pequeñas pausas en la ejecución del codigo.
-
+import sys
 ##Creando funciones
 ##Fución para validar que la entrada sea un numero entero
 def validar_entrada(mensaje):
@@ -45,7 +45,9 @@ def destinos():
     for clave, valor in vuelos.items():
         print(f"{clave}. {valor['Ciudad']}.")
     opcion_destino = validar_entrada("Ingresa una opción: ")
-    if opcion_destino > 0 and opcion_destino <= len(vuelos):
+    if 0 < opcion_destino <= len(vuelos):
+        destino = vuelos[opcion_destino]['Ciudad']
+        destino_hotel_tour.append(destino)
         return opcion_destino
     else:
         print("***Ingresa una opción valida***")
@@ -92,14 +94,13 @@ def eliminar_usuario():
 def mostrar_usuarios():
     """"Función que recorre nuestro diccionario de clientes e imprime en 
         pantalla sus datos."""
-    print("\033c", end="")## Limpiar consola
+   ##print("\033c", end="")## Limpiar consola
     ##Recorriendo el diccionario, usando la función .items() que nos retorna la clave y el valor
     if len(diccionario_usuarios) == 0:##Validando si el diccionario esta vacio
         print("***No hay usuarios registrados***")
     else:
         for id, usuario in diccionario_usuarios.items():
             print(f"ID:{id} {usuario['nombre']} {usuario['apellido']} {usuario['edad']} años")
-            print("-"*25)
         
 def numero_pasajeros():
     print("\033c", end="")## Limpiar consola
@@ -107,6 +108,7 @@ def numero_pasajeros():
     contador = usuarios_viaje
     while True:
         crea_usuario()
+        time.sleep(0.5)
         contador -= 1
         if contador == 0:
             break
@@ -137,7 +139,11 @@ def reservar_vuelo(clave,pasajeros):
             time.sleep(1)
             print("\033c",end="")
             reservar_vuelo(clave,pasajeros)
-        costo_total.append(salidas[opcion_vuelo])                                
+        else:
+            vuelo_total = salidas[opcion_vuelo] * pasajeros
+            costo_vuelo.append(vuelo_total)
+            print(f"Valor del vuelo para {pasajeros} es: {vuelo_total:,}")
+            time.sleep(2)                              
     else:
         print("***Ingresa una opción valida***")
         time.sleep(1)
@@ -150,23 +156,42 @@ def reservar_hotel(clave,huesped):
         print("Seleccione una opción de hotel:")
         for clave_hotel in hoteles[clave]:
             hotel = hoteles[clave][clave_hotel]
-            print(f"{clave_hotel}. {hotel['Nombre']}")
+            print(f"{clave_hotel}. {hotel['Nombre']} {hotel['precio']:,}"+"\n   "+(f"Tour: {hotel['Tours']}"))
         opcion_hotel = validar_entrada("Ingresa una opción: ")
-        if clave in hoteles and opcion_hotel in hoteles[clave]:
-            
+        if clave in hoteles and opcion_hotel in hoteles[clave]:            
             hotel_elegido = hoteles[clave][opcion_hotel]
-            print(f"Hotel: {hotel_elegido['Nombre']}")
-            print(f"Tours: {hotel_elegido['Tours']}")
+            destino_hotel_tour.append(hotel_elegido['Nombre'])
+            destino_hotel_tour.append(hotel_elegido['Tours'])
             valor_hotel = hotel_elegido['precio'] * huesped 
-            costo_total.append(valor_hotel)
-            print(f"Precio: ${costo_total}")
+            costo_hotel.append(valor_hotel)
+            print(f"Precio del hotel mas tour: ${valor_hotel:,}")
         else:
             print("***Ingresa una opción valida***")
             time.sleep(1)
             reservar_hotel(clave, huesped)  
 def mostrar_compra():
     """comentario sobre la funcion"""
-
+    print("\033c", end="")## Limpiar consola
+    if (diccionario_usuarios != {}) and (costo_hotel and costo_vuelo) != []:
+        hotel = 0
+        vuelo = 0
+        for dato1, dato2 in zip(costo_hotel, costo_vuelo):
+            hotel = dato1
+            vuelo = dato2
+        costo_total = hotel + vuelo
+        print("Resumen de la compra:"+"\n")        
+        print(f"Total usuarios: {len(diccionario_usuarios)}")
+        mostrar_usuarios()
+        for datos in destino_hotel_tour:
+            print(f"--{datos}")
+        print(f"---->Costo total del vuelo: ${vuelo:,}")
+        print(f"---->Costo total del hotel: ${hotel:,}")
+        print(f"---->Precio total del viaje: ${costo_total:,}")
+        time.sleep(3)
+        print("\n"+"***Gracias por usar nuestro servicio***")
+        sys.exit(0)
+    else:
+        print("***No hay compras registradas***")
 ##Creando diccionario con las diferentes opciones
 menu_opciones = {
     1:crea_usuario,
@@ -177,8 +202,12 @@ menu_opciones = {
 }
 ##Creando diccionario vacio para almacenar a los usuarios
 diccionario_usuarios ={}
-##Creando lista de costos
-costo_total = [] 
+##Creando lista de costo vuelo
+costo_vuelo = []
+##Creando lista de costo hotel
+costo_hotel = []
+##Creando lista con el destino, hotel y tour elegido
+destino_hotel_tour = []  
 ##Inicializando variables
 mensaje_bienvenida = "Bienvenido al menu de la Agencia"
 ##Creando bucle para repetir el menu 
